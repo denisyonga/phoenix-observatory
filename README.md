@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Phoenix Observatory
 
-## Getting Started
+Operational Intelligence Platform for Network Observability, Analytics and Infrastructure Monitoring
 
-First, run the development server:
+Phoenix Observatory is a prototype platform designed to demonstrate how operational network data can be transformed into meaningful visual intelligence for analysts, administrators, and decision-makers.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The project was developed as a proof of concept for a RIPE-related observability platform and demonstrates an architecture that can evolve into a production-ready operational intelligence system.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Key Features
+Interactive European network map
+Country health monitoring dashboard
+Executive operational dashboard
+Network observability indicators
+RIPE Atlas metrics integration (prototype)
+Upload inbox and dataset validation
+Historical timeline visualisation
+Operational recommendations engine
+Priority alerts
+Operational trends and reporting
+Modular component architecture
+Technology Stack
+Next.js
+React
+TypeScript
+Tailwind CSS
+Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Phoenix Observatory has been designed using a modular architecture.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Core components are separated into independent modules including:
 
-## Learn More
+Executive Dashboard
+Country Information
+Network Status
+RIPE Atlas Status
+Upload Validation
+Historical Timeline
+Operational Charts
+Recommendation Engine
+Activity Feed
 
-To learn more about Next.js, take a look at the following resources:
+This approach allows individual modules to evolve independently while maintaining a consistent operational platform.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Current Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Prototype Version 1
 
-## Deploy on Vercel
+The current implementation demonstrates the overall architecture, user experience, data flow, validation concepts, reporting capabilities, and dashboard design.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Future versions will support live data ingestion, database integration, authentication, user roles, scheduled measurements, and production deployment.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Author
+
+Denis Yonga
+
+Project Phoenix Observatory
