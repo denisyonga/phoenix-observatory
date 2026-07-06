@@ -15,7 +15,7 @@ type Props = {
   
       <div className="mb-8 rounded-2xl bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 p-8 text-white shadow-xl">
   
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-xl font-bold">
   
           🦅 Phoenix Network Observatory
   
@@ -23,7 +23,7 @@ type Props = {
   
         <p className="mt-2 text-slate-300">
   
-          Operational Intelligence Platform
+        Transforming Network Measurements into Actionable Operational Insight
   
         </p>
   

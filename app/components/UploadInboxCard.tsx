@@ -11,7 +11,7 @@ export default function UploadInboxCard({
     <div className="rounded-xl border bg-white p-6 shadow">
 
       <h2 className="mb-5 text-2xl font-bold">
-        📂 Upload Inbox
+        📂 Data Inbox
       </h2>
 
       <div className="space-y-4">

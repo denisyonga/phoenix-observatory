@@ -8,7 +8,7 @@ import {
       <div className="rounded-xl border bg-white p-6 shadow">
   
         <h2 className="mb-6 text-2xl font-bold">
-          📊 Operational Trends
+          📊 Operational Trends & Insights
         </h2>
   
         {/* LATENCY */}

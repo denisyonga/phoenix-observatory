@@ -76,7 +76,7 @@ value: string | number;
 
 return (
 
-  <div className="rounded-lg bg-white/10 p-5">
+  <div className="rounded-lg bg-white/10 p-6">
 
     <p className="text-sm text-slate-300">
 
@@ -84,7 +84,7 @@ return (
 
     </p>
 
-    <p className="mt-2 text-4xl font-bold">
+    <p className="mt-2 text-2xl font-bold">
 
       {value}
 

@@ -22,6 +22,7 @@ import PhoenixExecutiveDashboard from "./PhoenixExecutiveDashboard";
 import OperationalChartsCard from "./OperationalChartsCard";
 import PriorityAlertsCard from "./PriorityAlertsCard";
 import { generatePriorityAlerts } from "../insights/generatePriorityAlerts";
+import EnvironmentBanner from "./EnvironmentBanner";
 
 type Feature = {
   properties: {
@@ -52,46 +53,46 @@ export default function InteractiveMap() {
   );
 
   const networkData =
-  selected && selected in mockNetworkData
-    ? mockNetworkData[selected as keyof typeof mockNetworkData]
-    : undefined;
+    selected && selected in mockNetworkData
+      ? mockNetworkData[selected as keyof typeof mockNetworkData]
+      : undefined;
 
   const atlasData =
-  selected && selected in mockAtlasData
-    ? mockAtlasData[selected as keyof typeof mockAtlasData]
-    : undefined;
+    selected && selected in mockAtlasData
+      ? mockAtlasData[selected as keyof typeof mockAtlasData]
+      : undefined;
 
   const historyData =
-  selected
-    ? mockHistoryData[selected as keyof typeof mockHistoryData]
-    : undefined;
+    selected
+      ? mockHistoryData[selected as keyof typeof mockHistoryData]
+      : undefined;
 
-    const observations =
-  networkData && atlasData
-    ? generateObservations(networkData, atlasData)
-    : undefined;
+  const observations =
+    networkData && atlasData
+      ? generateObservations(networkData, atlasData)
+      : undefined;
 
-    const priorityAlerts =
-  networkData && atlasData
-    ? generatePriorityAlerts(networkData, atlasData)
-    : undefined;
+  const priorityAlerts =
+    networkData && atlasData
+      ? generatePriorityAlerts(networkData, atlasData)
+      : undefined;
 
-    const countriesLoaded = Object.keys(mockNetworkData).length;
+  const countriesLoaded = Object.keys(mockNetworkData).length;
 
-const healthy = 4;
+  const healthy = 4;
 
-const warning = 1;
+  const warning = 1;
 
-const critical = 0;
+  const critical = 0;
 
-const averageLatency = 24;
+  const averageLatency = 24;
 
-const averagePacketLoss = 0.3;
+  const averagePacketLoss = 0.3;
 
-    const recommendations =
-  networkData && atlasData
-    ? generateRecommendations(networkData, atlasData)
-    : undefined;
+  const recommendations =
+    networkData && atlasData
+      ? generateRecommendations(networkData, atlasData)
+      : undefined;
 
   useEffect(() => {
     fetch("/maps/europe.geojson")
@@ -102,186 +103,192 @@ const averagePacketLoss = 0.3;
   }, []);
 
   return (
-    
+
     <div className="p-8">
 
-<PhoenixHeader
-  dataset="RIPE_July.csv"
-  status="Healthy"
-  countries={countries.length}
-  updated="Today 10:15 UTC"
-/>
-    <div className="grid grid-cols-3 gap-6 p-8">
-    <div className="col-span-3 mb-6">
+      <PhoenixHeader
+        dataset="RIPE_July.csv"
+        status="Healthy"
+        countries={countries.length}
+        updated="Today 10:15 UTC"
+      />
+        <div className="mt-6 mb-6">
 
-<PhoenixExecutiveDashboard
-  countriesLoaded={countriesLoaded}
-  healthy={healthy}
-  warning={warning}
-  critical={critical}
-  averageLatency={averageLatency}
-  averagePacketLoss={averagePacketLoss}
-/>
+        </div>
 
-</div>
+        <EnvironmentBanner />
 
-    {/* MAP SECTION */}
-    <div className="col-span-2">
+<div className="mt-6 mb-8">
 
-    <div className="mb-8">
-  <OperationalChartsCard />
-</div>
-
-      <h2 className="mb-6 text-3xl font-bold">
-        {hovered || "Europe"}
-      </h2>
-      
-      <input
-        type="text"
-        placeholder="🔍 Search for a country..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 w-full rounded-lg border border-slate-300 p-3 shadow-sm focus:border-blue-500 focus:outline-none"
+  <PhoenixExecutiveDashboard
+    countriesLoaded={countriesLoaded}
+    healthy={healthy}
+    warning={warning}
+    critical={critical}
+    averageLatency={averageLatency}
+    averagePacketLoss={averagePacketLoss}
   />
-  {/* SEARCH RESULTS */}
 
-  {search && (
-    <div className="mb-4 rounded-lg border bg-white shadow">
-      {filteredCountries.slice(0, 8).map((country) => (
-        <div
-          key={country.properties.ISO3}
-          className="cursor-pointer border-b p-3 hover:bg-blue-50"
-          onClick={() => {
-          setSelected(country.properties.NAME);
-          setSearch("");
-        }}
-        >
-          {country.properties.NAME}
-      </div>
-    ))}
-  </div>
-)}
-      <p className="mb-4 text-lg text-slate-600">
-        {selected
-          ? `📍 Selected Country: ${selected}`
-          : "🌍 Click any country to begin exploring"}
-      </p>
+</div>
 
-      <div className="rounded-xl bg-white p-4 shadow-lg border">
-        
-         <svg
-        viewBox="0 0 900 700"
-        className="w-full"
-      >
-        {countries.map((country, index) => {
+<div className="grid grid-cols-3 gap-6">
 
-          const geometry = country.geometry;
+          {/* MAP SECTION */}
+          <div className="col-span-2 space-y-8">
 
-          if (geometry.type !== "MultiPolygon") return null;
+            <div className="mb-8">
+              <OperationalChartsCard />
+            </div>
 
-          return geometry.coordinates.map(
-            (polygon: any, pIndex: number) => {
+            <h2 className="mb-6 text-3xl font-bold">
+              {hovered || "European Network Overview"}
+            </h2>
 
-              const ring = polygon[0];
+            <input
+              type="text"
+              placeholder="🔍 Search countries..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="mb-4 w-full rounded-lg border border-slate-300 p-3 shadow-sm focus:border-blue-500 focus:outline-none"
+            />
+            {/* SEARCH RESULTS */}
 
-              const points = ring
-                .map(
-                  ([x, y]: number[]) =>
-                    `${(x + 30) * 12},${700 - (y - 30) * 12}`
-                )
-                .join(" ");
+            {search && (
+              <div className="mb-4 rounded-lg border bg-white shadow">
+                {filteredCountries.slice(0, 8).map((country) => (
+                  <div
+                    key={country.properties.ISO3}
+                    className="cursor-pointer border-b p-3 hover:bg-blue-50"
+                    onClick={() => {
+                      setSelected(country.properties.NAME);
+                      setSearch("");
+                    }}
+                  >
+                    {country.properties.NAME}
+                  </div>
+                ))}
+              </div>
+            )}
+            <p className="mb-4 text-lg text-slate-600">
+              {selected
+                ? `📍 Selected Country: ${selected}`
+                : "🌍 Click any country to begin exploring"}
+            </p>
 
-              return (
-                <polygon
-                key={`${index}-${pIndex}`}
-                points={points}
-                fill={
-                  selected === country.properties.NAME
-                    ? "#2563eb"
-                    : hovered === country.properties.NAME
-                      ? "#93c5fd"
-                      : "#e5e7eb"
-                }
-                stroke={hovered === country.properties.NAME ? "#2563eb" : "#dc2626"}
-                strokeWidth={hovered === country.properties.NAME ? 2 : 0.5}
-                onMouseEnter={() => setHovered(country.properties.NAME)}
-                onMouseLeave={() => setHovered("")}
-                onClick={() => setSelected(country.properties.NAME)}
-                className="transition-all duration-200"
-                style={{ cursor: "pointer" }}
-                
+            <div className="rounded-xl bg-white p-4 shadow-lg border">
+
+              <svg
+                viewBox="0 0 900 700"
+                className="w-full"
+              >
+                {countries.map((country, index) => {
+
+                  const geometry = country.geometry;
+
+                  if (geometry.type !== "MultiPolygon") return null;
+
+                  return geometry.coordinates.map(
+                    (polygon: any, pIndex: number) => {
+
+                      const ring = polygon[0];
+
+                      const points = ring
+                        .map(
+                          ([x, y]: number[]) =>
+                            `${(x + 30) * 12},${700 - (y - 30) * 12}`
+                        )
+                        .join(" ");
+
+                      return (
+                        <polygon
+                          key={`${index}-${pIndex}`}
+                          points={points}
+                          fill={
+                            selected === country.properties.NAME
+                              ? "#2563eb"
+                              : hovered === country.properties.NAME
+                                ? "#93c5fd"
+                                : "#e5e7eb"
+                          }
+                          stroke={hovered === country.properties.NAME ? "#2563eb" : "#dc2626"}
+                          strokeWidth={hovered === country.properties.NAME ? 2 : 0.5}
+                          onMouseEnter={() => setHovered(country.properties.NAME)}
+                          onMouseLeave={() => setHovered("")}
+                          onClick={() => setSelected(country.properties.NAME)}
+                          className="transition-all duration-200"
+                          style={{ cursor: "pointer" }}
+
+                        />
+                      );
+                    }
+                  );
+                })}
+              </svg>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="mb-4 text-2xl font-bold text-slate-700">
+              Operational Timeline
+              </h2>
+
+              <HistoryTimelineCard
+                history={historyData}
+              />
+
+              <div className="mt-8">
+
+                <UploadInboxCard
+                  uploads={mockUploads}
                 />
+
+              </div>
+
+              <div className="mt-8">
+
+                <ValidationSummaryCard
+                  rows={mockValidation.rows}
+                  warnings={mockValidation.warnings}
+                  errors={mockValidation.errors}
+                />
+
+              </div>
+
+            </div>
+          </div>
+
+          {/* Information Panel */}
+
+          <div className="sticky top-6 self-start space-y-8">
+
+            <HealthOverviewCard
+              country={selected}
+              networkData={networkData}
+              atlasData={atlasData}
+            />
+
+            <InsightsCard
+              observations={observations}
+            />
+
+            <RecommendationCard
+              recommendations={recommendations}
+            />
+
+            <CountryInfoPanel
+              selectedCountry={selectedCountry}
+            />
+
+            <NetworkStatusCard
+              networkData={networkData}
+            />
+
+            <AtlasStatusCard
+              atlasData={atlasData}
+            />
+
+                </div>
+              </div>
+              </div>
+            
               );
-            }
-          );
-        })}
-      </svg>
-      </div>
-
-      <div className="mt-8">
-  <h2 className="mb-4 text-2xl font-bold text-slate-700">
-    Historical Insights
-  </h2>
-
-  <HistoryTimelineCard
-    history={historyData}
-  />
-
-<div className="mt-8">
-
-<UploadInboxCard
-  uploads={mockUploads}
-/>
-
-</div>
-
-<div className="mt-8">
-
-  <ValidationSummaryCard
-    rows={mockValidation.rows}
-    warnings={mockValidation.warnings}
-    errors={mockValidation.errors}
-  />
-
-</div>
-
-</div>
-      </div>
-      
-{/* Information Panel */}
-
-<div className="sticky top-6 self-start space-y-6">
-
-  <HealthOverviewCard
-    country={selected}
-    networkData={networkData}
-    atlasData={atlasData}
-  />
-
-  <InsightsCard
-    observations={observations}
-  />  
-
-<RecommendationCard
-  recommendations={recommendations}
-/>
-
-  <CountryInfoPanel
-    selectedCountry={selectedCountry}
-  />
-
-  <NetworkStatusCard
-    networkData={networkData}
-  />
-
-  <AtlasStatusCard
-    atlasData={atlasData}
-  />
-
-</div>
-
-</div>
-</div>
-
-  );
 }

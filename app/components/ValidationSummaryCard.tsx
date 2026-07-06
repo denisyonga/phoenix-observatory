@@ -24,7 +24,7 @@ type Props = {
       <div className="rounded-xl border bg-white p-6 shadow">
   
         <h2 className="mb-5 text-2xl font-bold">
-          ✅ Validation Summary
+          ✅ Data Validation
         </h2>
   
         <div className="space-y-4">
