@@ -1,7 +1,7 @@
 import {
     latencyTrend,
     packetLossDistribution,
-  } from "../charts/mockChartData";
+  } from "../Charts/mockChartData";
   
   export default function OperationalChartsCard() {
     return (
