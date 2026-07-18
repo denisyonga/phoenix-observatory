@@ -1,0 +1,70 @@
+{
+    "id": "ripe-2026",
+    "title": "RIPE Index",
+    "description": "Mock dataset for Phoenix Observatory",
+    "version": "0.2",
+    "year": 2026,
+    "source": "ERGO Network",
+  
+    "countries": [
+      {
+        "id": "ken",
+        "name": "Kenya",
+        "iso2": "KE",
+        "iso3": "KEN",
+        "region": "Africa",
+        "latitude": -1.286389,
+        "longitude": 36.817223,
+        "overallScore": 82,
+  
+        "indicators": [
+          {
+            "id": "education",
+            "name": "Education",
+            "score": 81,
+            "category": "Social"
+          }
+        ]
+      },
+  
+      {
+        "id": "rom",
+        "name": "Romania",
+        "iso2": "RO",
+        "iso3": "ROU",
+        "region": "Europe",
+        "latitude": 44.4268,
+        "longitude": 26.1025,
+        "overallScore": 73,
+  
+        "indicators": [
+          {
+            "id": "education",
+            "name": "Education",
+            "score": 69,
+            "category": "Social"
+          }
+        ]
+      },
+  
+      {
+        "id": "spa",
+        "name": "Spain",
+        "iso2": "ES",
+        "iso3": "ESP",
+        "region": "Europe",
+        "latitude": 40.4168,
+        "longitude": -3.7038,
+        "overallScore": 88,
+  
+        "indicators": [
+          {
+            "id": "education",
+            "name": "Education",
+            "score": 90,
+            "category": "Social"
+          }
+        ]
+      }
+    ]
+  }
