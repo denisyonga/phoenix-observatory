@@ -23,24 +23,11 @@ import OperationalChartsCard from "./OperationalChartsCard";
 import PriorityAlertsCard from "./PriorityAlertsCard";
 import { generatePriorityAlerts } from "../insights/generatePriorityAlerts";
 import EnvironmentBanner from "./EnvironmentBanner";
-
-type Feature = {
-  properties: {
-    NAME: string;
-    ISO2: string;
-    ISO3: string;
-    POP2005: number;
-    REGION: number;
-    SUBREGION: number;
-  };
-  geometry: {
-    type: string;
-    coordinates: any;
-  };
-};
+import { GeoFeature } from "../types";
+import DatasetService from "../services/DatasetService";
 
 export default function InteractiveMap() {
-  const [countries, setCountries] = useState<Feature[]>([]);
+  const [countries, setCountries] = useState<GeoFeature[]>([]);
   const [hovered, setHovered] = useState("");
   const [selected, setSelected] = useState("");
   const [search, setSearch] = useState("");
@@ -94,13 +81,15 @@ export default function InteractiveMap() {
       ? generateRecommendations(networkData, atlasData)
       : undefined;
 
-  useEffect(() => {
-    fetch("/maps/europe.geojson")
-      .then((res) => res.json())
-      .then((data) => {
-        setCountries(data.features);
-      });
-  }, []);
+      useEffect(() => {
+        async function loadMap() {
+          const features = await DatasetService.getGeoFeatures();
+      
+          setCountries(features);
+        }
+      
+        loadMap();
+      }, []);
 
   return (
 
