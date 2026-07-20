@@ -11,13 +11,6 @@ type Feature = {
   
   type Props = {
     selectedCountry?: Feature;
-    networkData?: NetworkData;
-  };
-  type NetworkData = {
-    latency: number;
-    packetLoss: string;
-    ipv4: string;
-    ipv6: string;
   };
   
   export default function CountryInfoPanel({
@@ -48,7 +41,7 @@ type Feature = {
         <div className="rounded-lg border bg-white p-6 shadow">
 
         <h2 className="mb-4 text-2xl font-bold">
-          Country Information
+        Country Profile
         </h2>
 
         {selectedCountry ? (
@@ -76,7 +69,7 @@ type Feature = {
 
     <div className="rounded-lg border bg-slate-50 p-4">
       <p className="text-sm text-slate-500">
-        Population (2005)
+        Reference Population
       </p>
       <p className="text-xl font-semibold">
         {selectedCountry.properties.POP2005.toLocaleString()}
@@ -84,7 +77,7 @@ type Feature = {
     </div>
 
     <div className="rounded-lg border bg-slate-50 p-4">
-      <p className="text-sm text-slate-500"> Region
+      <p className="text-sm text-slate-500"> European Region
   </p>
 
   <p className="text-xl font-semibold">
@@ -94,7 +87,7 @@ type Feature = {
 
 <div className="rounded-lg border bg-slate-50 p-4">
   <p className="text-sm text-slate-500">
-    Subregion
+    Geographical Area
   </p>
 
   <p className="text-xl font-semibold">
@@ -103,47 +96,7 @@ type Feature = {
 </div>
 
 </div>
-<hr className="my-6" />
 
-<h4 className="mb-3 text-lg font-semibold">
-  ERGO Network
-</h4>
-
-<div className="rounded-lg border bg-blue-50 p-4">
-
-  <div className="grid grid-cols-2 gap-3">
-
-    <div className="rounded border bg-white p-3">
-      <p className="text-xs text-slate-500">Latency</p>
-      <p className="mt-1 text-lg font-semibold">
-        {networkData?.latency ?? "—"} ms
-      </p>
-    </div>
-
-    <div className="rounded border bg-white p-3">
-      <p className="text-xs text-slate-500">Packet Loss</p>
-      <p className="mt-1 text-lg font-semibold">
-        {networkData?.packetLoss ?? "—"}%
-      </p>
-    </div>
-
-    <div className="rounded border bg-white p-3">
-      <p className="text-xs text-slate-500">IPv4</p>
-      <p className="mt-1 text-lg font-semibold">
-        {networkData?.ipv4 ?? "—"}
-      </p>
-    </div>
-
-    <div className="rounded border bg-white p-3">
-      <p className="text-xs text-slate-500">IPv6</p>
-      <p className="mt-1 text-lg font-semibold">
-        {networkData?.ipv6 ?? "—"}
-      </p>
-    </div>
-
-  </div>
-
-</div>
 </>
 ) : (
   <div className="text-center py-12 text-slate-500">

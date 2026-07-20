@@ -1,6 +1,6 @@
 type Point = {
     time: string;
-    latency: number;
+    activity: string;
   };
   
   type Props = {
@@ -17,7 +17,7 @@ type Point = {
   
         <h2 className="mb-4 text-2xl font-bold">
   
-          Network Timeline
+          Recent Monitoring Activity
   
         </h2>
   
@@ -32,28 +32,27 @@ type Point = {
         ) : (
   
           <div className="space-y-3">
-  
-            {history.map((item) => (
-  
-              <div
-                key={item.time}
-                className="flex justify-between rounded-lg bg-slate-50 p-3"
-              >
-  
-                <span>{item.time}</span>
-  
-                <span className="font-semibold">
-  
-                  ⚡ {item.latency} ms
-  
-                </span>
-  
-              </div>
-  
-            ))}
-  
-          </div>
-  
+
+  {history.map((item, index) => (
+
+    <div
+    key={`${item.time}-${index}`}
+      className="flex justify-between rounded-lg bg-slate-50 p-3"
+    >
+
+      <span className="text-slate-500">
+        {item.time || ""}
+      </span>
+
+      <span className="font-semibold text-slate-700">
+        {item.activity}
+      </span>
+
+    </div>
+
+  ))}
+
+</div>  
         )}
   
       </div>

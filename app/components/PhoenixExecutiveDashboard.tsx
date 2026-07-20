@@ -1,19 +1,23 @@
 type Props = {
   countriesLoaded: number;
   healthy: number;
+  good: number;
   warning: number;
+  needsAttention: number;
   critical: number;
   averageLatency: number;
   averagePacketLoss: number;
 };
 
 export default function PhoenixExecutiveDashboard({
-countriesLoaded,
-healthy,
-warning,
-critical,
-averageLatency,
-averagePacketLoss,
+  countriesLoaded,
+  healthy,
+  good,
+  warning,
+  needsAttention,
+  critical,
+  averageLatency,
+  averagePacketLoss,
 }: Props) {
 
 return (
@@ -29,32 +33,42 @@ return (
     <div className="grid grid-cols-3 gap-6">
 
       <Metric
-        title="Countries Loaded"
+        title="Countries Reporting"
         value={countriesLoaded}
       />
 
       <Metric
-        title="Healthy"
+        title="Healthy Countries"
         value={healthy}
       />
 
       <Metric
-        title="Warning"
+        title="Good Standing"
+        value={good}
+      />
+
+      <Metric
+        title="Needs Review"
         value={warning}
       />
 
       <Metric
-        title="Critical"
+        title="Needs Attention"
+        value={needsAttention}
+      />
+
+      <Metric
+        title="Critical Issues"
         value={critical}
       />
 
       <Metric
-        title="Avg Latency"
+        title="RIPE Index Operational Indicators"
         value={`${averageLatency} ms`}
       />
 
       <Metric
-        title="Avg Packet Loss"
+        title="Submission Processing Time"
         value={`${averagePacketLoss}%`}
       />
 

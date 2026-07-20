@@ -23,20 +23,26 @@ import OperationalChartsCard from "./OperationalChartsCard";
 import PriorityAlertsCard from "./PriorityAlertsCard";
 import { generatePriorityAlerts } from "../insights/generatePriorityAlerts";
 import EnvironmentBanner from "./EnvironmentBanner";
-import { GeoFeature } from "../types";
+import CountryViewService from "../services/CountryViewService";
+import { CountryViewModel } from "../types";
 import DatasetService from "../services/DatasetService";
+import { GeoFeature } from "../types/geoFeature";
+import CountryStatusService from "../services/CountryStatusService";
 
 export default function InteractiveMap() {
-  const [countries, setCountries] = useState<GeoFeature[]>([]);
   const [hovered, setHovered] = useState("");
   const [selected, setSelected] = useState("");
   const [search, setSearch] = useState("");
-  const selectedCountry = countries.find(
-    (country) => country.properties.NAME === selected
-  );
+  const [geoFeatures, setGeoFeatures] =
+    useState<GeoFeature[]>([]);
+  const [countryViews, setCountryViews] =
+    useState<CountryViewModel[]>([]);
+  const selectedCountryView = countryViews.find(
+    (view) => view.country.name === selected
+);
 
-  const filteredCountries = countries.filter((country) =>
-    country.properties.NAME.toLowerCase().includes(search.toLowerCase())
+  const filteredCountryViews = countryViews.filter((view) =>
+    view.country.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const networkData =
@@ -66,11 +72,25 @@ export default function InteractiveMap() {
 
   const countriesLoaded = Object.keys(mockNetworkData).length;
 
-  const healthy = 4;
-
-  const warning = 1;
-
-  const critical = 0;
+  const healthy = countryViews.filter(
+    view => CountryStatusService.getStatus(view) === "Healthy"
+  ).length;
+  
+  const good = countryViews.filter(
+    view => CountryStatusService.getStatus(view) === "Good"
+  ).length;
+  
+  const warning = countryViews.filter(
+    view => CountryStatusService.getStatus(view) === "Warning"
+  ).length;
+  
+  const needsAttention = countryViews.filter(
+    view => CountryStatusService.getStatus(view) === "Needs Attention"
+  ).length;
+  
+  const critical = countryViews.filter(
+    view => CountryStatusService.getStatus(view) === "Critical"
+  ).length;
 
   const averageLatency = 24;
 
@@ -81,15 +101,47 @@ export default function InteractiveMap() {
       ? generateRecommendations(networkData, atlasData)
       : undefined;
 
-      useEffect(() => {
-        async function loadMap() {
-          const features = await DatasetService.getGeoFeatures();
-      
-          setCountries(features);
+      function getCountryColor(view?: CountryViewModel): string {
+        if (!view) {
+          // Country exists on the map but has no RIPE data
+          return "#e5e7eb";
         }
       
-        loadMap();
-      }, []);
+        const data = mockNetworkData[
+          view.country.name as keyof typeof mockNetworkData
+        ];
+      
+        if (!data) {
+          return "#e5e7eb";
+        }
+      
+        // Temporary demo rules
+        if (data.packetLoss >= 1) return "#dc2626";   // Red
+        if (data.packetLoss >= 0.5) return "#f59e0b"; // Orange
+        if (data.packetLoss >= 0.2) return "#eab308"; // Yellow
+      
+        return "#22c55e"; // Green
+      }
+
+      useEffect(() => {
+        async function initialize() {
+
+          console.log("Loading GeoJSON...");
+        
+          const features =
+            await DatasetService.getGeoFeatures();
+
+          setGeoFeatures(features);
+
+          const views =
+            await CountryViewService.getCountryViews();
+
+          setCountryViews(views);
+        
+        }
+      
+        initialize();
+      }, []);;
 
   return (
 
@@ -97,8 +149,8 @@ export default function InteractiveMap() {
 
       <PhoenixHeader
         dataset="RIPE_July.csv"
-        status="Healthy"
-        countries={countries.length}
+        status="Operational"
+        countries={countryViews.length}
         updated="Today 10:15 UTC"
       />
         <div className="mt-6 mb-6">
@@ -109,13 +161,15 @@ export default function InteractiveMap() {
 
 <div className="mt-6 mb-8">
 
-  <PhoenixExecutiveDashboard
-    countriesLoaded={countriesLoaded}
-    healthy={healthy}
-    warning={warning}
-    critical={critical}
-    averageLatency={averageLatency}
-    averagePacketLoss={averagePacketLoss}
+<PhoenixExecutiveDashboard
+  countriesLoaded={countriesLoaded}
+  healthy={healthy}
+  good={good}
+  warning={warning}
+  needsAttention={needsAttention}
+  critical={critical}
+  averageLatency={averageLatency}
+  averagePacketLoss={averagePacketLoss}
   />
 
 </div>
@@ -130,30 +184,30 @@ export default function InteractiveMap() {
             </div>
 
             <h2 className="mb-6 text-3xl font-bold">
-              {hovered || "European Network Overview"}
+              {hovered || "Participating Countries"}
             </h2>
 
             <input
               type="text"
-              placeholder="🔍 Search countries..."
+              placeholder="🔍 Search participating country..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="mb-4 w-full rounded-lg border border-slate-300 p-3 shadow-sm focus:border-blue-500 focus:outline-none"
+              className="mb-4 w-full rounded-lg border border-slate-400 p-3 shadow-sm focus:border-blue-500 focus:outline-none"
             />
             {/* SEARCH RESULTS */}
 
             {search && (
               <div className="mb-4 rounded-lg border bg-white shadow">
-                {filteredCountries.slice(0, 8).map((country) => (
+                {filteredCountryViews.slice(0, 8).map((view) => (
                   <div
-                    key={country.properties.ISO3}
+                  key={view.country.iso3}
                     className="cursor-pointer border-b p-3 hover:bg-blue-50"
                     onClick={() => {
-                      setSelected(country.properties.NAME);
+                      setSelected(view.country.name)
                       setSearch("");
                     }}
                   >
-                    {country.properties.NAME}
+                    {view.country.name}
                   </div>
                 ))}
               </div>
@@ -161,7 +215,7 @@ export default function InteractiveMap() {
             <p className="mb-4 text-lg text-slate-600">
               {selected
                 ? `📍 Selected Country: ${selected}`
-                : "🌍 Click any country to begin exploring"}
+                : "🌍 Select a participating country to view RIPE indicators"}
             </p>
 
             <div className="rounded-xl bg-white p-4 shadow-lg border">
@@ -170,9 +224,21 @@ export default function InteractiveMap() {
                 viewBox="0 0 900 700"
                 className="w-full"
               >
-                {countries.map((country, index) => {
+                {geoFeatures.map((geoFeature, index) => {
 
-                  const geometry = country.geometry;
+                  const view = countryViews.find(
+                  (v) => v.country.iso3 === geoFeature.properties.ISO3
+                  );
+
+                  const geometry = geoFeature.geometry;
+
+                  if (view) {
+                    console.log(
+                      geoFeature.properties.NAME,
+                      geoFeature.properties.ISO3,
+                      view.country.iso3
+                    );
+                  }
 
                   if (geometry.type !== "MultiPolygon") return null;
 
@@ -193,17 +259,17 @@ export default function InteractiveMap() {
                           key={`${index}-${pIndex}`}
                           points={points}
                           fill={
-                            selected === country.properties.NAME
+                            selected === geoFeature.properties.NAME
                               ? "#2563eb"
-                              : hovered === country.properties.NAME
-                                ? "#93c5fd"
+                              : view
+                                ? CountryStatusService.getColor(view)
                                 : "#e5e7eb"
                           }
-                          stroke={hovered === country.properties.NAME ? "#2563eb" : "#dc2626"}
-                          strokeWidth={hovered === country.properties.NAME ? 2 : 0.5}
-                          onMouseEnter={() => setHovered(country.properties.NAME)}
+                          stroke={hovered === geoFeature.properties.NAME ? "#2563eb" : "#cbd5e1"}
+                          strokeWidth={hovered === geoFeature.properties.NAME ? 2 : 0.5}
+                          onMouseEnter={() => setHovered(geoFeature.properties.NAME)}
                           onMouseLeave={() => setHovered("")}
-                          onClick={() => setSelected(country.properties.NAME)}
+                          onClick={() => setSelected(geoFeature.properties.NAME)}
                           className="transition-all duration-200"
                           style={{ cursor: "pointer" }}
 
@@ -264,11 +330,7 @@ export default function InteractiveMap() {
             />
 
             <CountryInfoPanel
-              selectedCountry={selectedCountry}
-            />
-
-            <NetworkStatusCard
-              networkData={networkData}
+              selectedCountry={selectedCountryView?.geometry}
             />
 
             <AtlasStatusCard

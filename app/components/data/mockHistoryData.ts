@@ -27,12 +27,27 @@ export const mockHistoryData: Record<
   ],
 
   Spain: [
-    { time: "09:00", latency: 40 },
-    { time: "10:00", latency: 37 },
-    { time: "11:00", latency: 35 },
-    { time: "12:00", latency: 39 },
-    { time: "13:00", latency: 38 },
-  ],
+  {
+    time: "Yesterday",
+    activity: "📥 Dataset submitted",
+  },
+  {
+    time: "",
+    activity: "⚠️ Validation warning detected",
+  },
+  {
+    time: "",
+    activity: "✅ Submission corrected",
+  },
+  {
+    time: "",
+    activity: "📊 Indicators recalculated",
+  },
+  {
+    time: "",
+    activity: "🦅 Dashboard published",
+  },
+],
 
   Azerbaijan: [
     { time: "09:00", latency: 57 },

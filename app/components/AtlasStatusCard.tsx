@@ -25,7 +25,7 @@ type AtlasData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Probes
+                Monitoring Points
               </p>
   
               <p className="text-xl font-semibold">
@@ -35,7 +35,7 @@ type AtlasData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Online
+                Active Monitoring
               </p>
   
               <p className="text-xl font-semibold">
@@ -45,7 +45,7 @@ type AtlasData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Anchors
+                Reference Anchors
               </p>
   
               <p className="text-xl font-semibold">
@@ -55,7 +55,7 @@ type AtlasData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Measurements
+                Measurements Collected
               </p>
   
               <p className="text-xl font-semibold">

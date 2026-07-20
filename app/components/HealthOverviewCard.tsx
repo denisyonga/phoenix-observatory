@@ -29,7 +29,7 @@ type NetworkData = {
       return (
         <div className="rounded-lg border bg-white p-6 shadow">
           <h2 className="mb-4 text-2xl font-bold">
-            Phoenix Overview
+          RIPE Country Overview
           </h2>
   
           <div className="py-8 text-center text-slate-500">
@@ -44,8 +44,27 @@ type NetworkData = {
       parseFloat(networkData.packetLoss),
       atlasData.online,
       atlasData.probes
-  );
-  
+
+    );
+
+    const availability =
+      (atlasData.online / atlasData.probes) * 100;
+
+      let operationalStatus = "Healthy";
+
+        if (parseFloat(networkData.packetLoss) >= 1) {
+         operationalStatus = "Critical";
+      } else if (
+        networkData.latency > 50 ||
+        availability < 80
+      ) {
+  operationalStatus = "Needs Attention";
+      } else if (
+        parseFloat(networkData.packetLoss) > 0.3
+      ) {
+        operationalStatus = "Good";
+      }
+
     return (
       <div className="rounded-lg border bg-gradient-to-br from-blue-50 to-white p-6 shadow">
   
@@ -58,10 +77,6 @@ type NetworkData = {
         </p>
   
         <div className="mt-6 rounded-xl bg-white p-5 shadow">
-  
-            <p className="text-sm text-slate-500">
-            Overall Health Score
-            </p>
   
           <p className="mt-2 text-3xl font-bold">
           {healthScore >= 90
@@ -88,6 +103,22 @@ type NetworkData = {
          ? "🟡 Stable"
          : "🔴 Needs Attention"}
         </p>
+
+        <p className="text-sm text-slate-500">
+         /100
+      </p>
+
+      <div className="mt-4 rounded-lg border bg-slate-50 p-4">
+
+  <p className="text-sm text-slate-500">
+    Operational Status
+  </p>
+
+  <p className="mt-2 text-2xl font-bold">
+    {operationalStatus}
+  </p>
+
+</div>
 
     <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200">
 

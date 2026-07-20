@@ -15,7 +15,7 @@ type NetworkData = {
     return (
       <div className="rounded-lg border bg-white p-6 shadow">
         <h2 className="mb-4 text-2xl font-bold">
-          Network Status
+          Operational Connectivity
         </h2>
   
         {networkData ? (
@@ -23,7 +23,7 @@ type NetworkData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Latency
+                Platform Response
               </p>
   
               <p className="text-xl font-semibold">
@@ -33,42 +33,42 @@ type NetworkData = {
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                Packet Loss
+                Submission Integrity
               </p>
   
               <p className="text-xl font-semibold">
-                📦 {networkData.packetLoss}%
+                🛡️ {(100 - parseFloat(networkData.packetLoss)).toFixed(1)}%
               </p>
             </div>
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                IPv4
+                Data Exchange
               </p>
   
               <p className="text-xl font-semibold">
                 {networkData.ipv4 === "Reachable"
-                  ? "🟢 Reachable"
-                  : "🔴 Unreachable"}
+                  ? "🟢 Operational"
+                  : "🔴 Unavailable"}
               </p>
             </div>
   
             <div className="rounded-lg border bg-slate-50 p-4">
               <p className="text-sm text-slate-500">
-                IPv6
+                Monitoring Services
               </p>
   
               <p className="text-xl font-semibold">
                 {networkData.ipv6 === "Reachable"
-                  ? "🟢 Reachable"
-                  : "🟡 Unavailable"}
+                  ? "🟢 Operational"
+                  : "🟡 Limited"}
               </p>
             </div>
   
           </div>
         ) : (
           <div className="py-10 text-center text-slate-500">
-            Select a country to view network status.
+            Select a participating country to view operational connectivity.
           </div>
         )}
       </div>

@@ -11,7 +11,7 @@ export default function UploadInboxCard({
     <div className="rounded-xl border bg-white p-6 shadow">
 
       <h2 className="mb-5 text-2xl font-bold">
-        📂 Data Inbox
+        📂 Dataset Submissions
       </h2>
 
       <div className="space-y-4">
@@ -32,7 +32,7 @@ export default function UploadInboxCard({
                 </p>
 
                 <p className="text-sm text-slate-500">
-                  Uploaded by {upload.uploadedBy}
+                  Submitted by {upload.uploadedBy}
                 </p>
 
                 <p className="text-xs text-slate-400">
@@ -65,7 +65,7 @@ export default function UploadInboxCard({
             <div className="mt-4 flex gap-6 text-sm text-slate-600">
 
               <span>
-                📄 {upload.rows} rows
+                📄 {upload.rows} records
               </span>
 
               <span>

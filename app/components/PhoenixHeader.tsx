@@ -17,13 +17,13 @@ type Props = {
   
         <h1 className="text-xl font-bold">
   
-          🦅 Phoenix Network Observatory
+        🦅 Phoenix Observatory
   
         </h1>
   
-        <p className="mt-2 text-slate-300">
+        <p className="mt-3 text-slate-300">
   
-        Transforming Network Measurements into Actionable Operational Insight
+          Operational Intelligence for the RIPE Index
   
         </p>
   
@@ -33,7 +33,7 @@ type Props = {
   
             <p className="text-xs uppercase text-slate-400">
   
-              Dataset
+              Active Dataset
   
             </p>
   
@@ -49,7 +49,7 @@ type Props = {
   
             <p className="text-xs uppercase text-slate-400">
   
-              Status
+              Platform Status
   
             </p>
   
@@ -65,7 +65,7 @@ type Props = {
   
             <p className="text-xs uppercase text-slate-400">
   
-              Countries
+              Participating Countries
   
             </p>
   
@@ -81,7 +81,7 @@ type Props = {
   
             <p className="text-xs uppercase text-slate-400">
   
-              Last Update
+              Last Updated
   
             </p>
   

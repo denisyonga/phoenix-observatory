@@ -24,23 +24,23 @@ type Props = {
       <div className="rounded-xl border bg-white p-6 shadow">
   
         <h2 className="mb-5 text-2xl font-bold">
-          ✅ Data Validation
+        ✅ Dataset Quality
         </h2>
   
         <div className="space-y-4">
   
           <div className="flex justify-between">
-            <span>Rows Imported</span>
+            <span>Records Processed</span>
             <strong>{rows}</strong>
           </div>
   
           <div className="flex justify-between">
-            <span>Warnings</span>
+            <span>Items Requiring Review</span>
             <strong>{warnings}</strong>
           </div>
   
           <div className="flex justify-between">
-            <span>Errors</span>
+            <span>Validation Errors</span>
             <strong>{errors}</strong>
           </div>
   
@@ -62,7 +62,7 @@ type Props = {
             </div>
   
             <p className="mt-2 text-lg font-bold">
-              {score}% Healthy
+              {score}% Quality Score
             </p>
   
           </div>

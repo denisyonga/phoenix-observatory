@@ -23,6 +23,7 @@ class DatasetService {
     const response = await fetch("/maps/europe.geojson");
 
     const geoJson = await response.json();
+    console.log(geoJson.features[0].properties);
 
     return geoJson.features;
   }
