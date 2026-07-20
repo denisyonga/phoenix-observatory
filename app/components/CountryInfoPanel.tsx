@@ -15,8 +15,8 @@ type Feature = {
   
   export default function CountryInfoPanel({
     selectedCountry,
-    networkData,
   }: Props) {
+    
     function countryFlag(code: string) {
         return code
           .toUpperCase()

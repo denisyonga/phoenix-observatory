@@ -7,7 +7,7 @@ import { mockAtlasData } from "./data/mockAtlasData";
 import NetworkStatusCard from "./NetworkStatusCard";
 import HealthOverviewCard from "./HealthOverviewCard";
 import AtlasStatusCard from "./AtlasStatusCard";
-import { mockHistoryData } from "./data/mockHistoryData";
+import { mockActivityData } from "./data/mockActivityData";
 import HistoryTimelineCard from "./HistoryTimelineCard";
 import InsightsCard from "./InsightsCard";
 import { generateObservations } from "../insights/generateObservations";
@@ -55,10 +55,10 @@ export default function InteractiveMap() {
       ? mockAtlasData[selected as keyof typeof mockAtlasData]
       : undefined;
 
-  const historyData =
-    selected
-      ? mockHistoryData[selected as keyof typeof mockHistoryData]
-      : undefined;
+      const historyData =
+      selected
+        ? mockActivityData[selected as keyof typeof mockActivityData]
+        : undefined;
 
   const observations =
     networkData && atlasData
@@ -107,18 +107,21 @@ export default function InteractiveMap() {
           return "#e5e7eb";
         }
       
-        const data = mockNetworkData[
-          view.country.name as keyof typeof mockNetworkData
+        const data =
+        mockNetworkData[
+        view.country.name as keyof typeof mockNetworkData
         ];
+
+const packetLoss = parseFloat(data.packetLoss);
       
         if (!data) {
           return "#e5e7eb";
         }
       
         // Temporary demo rules
-        if (data.packetLoss >= 1) return "#dc2626";   // Red
-        if (data.packetLoss >= 0.5) return "#f59e0b"; // Orange
-        if (data.packetLoss >= 0.2) return "#eab308"; // Yellow
+        if (packetLoss >= 1) return "#dc2626";      // Red
+        if (packetLoss >= 0.5) return "#f59e0b";    // Orange
+        if (packetLoss >= 0.2) return "#eab308";    // Yellow
       
         return "#22c55e"; // Green
       }
