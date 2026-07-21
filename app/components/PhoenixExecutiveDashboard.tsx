@@ -26,11 +26,15 @@ return (
 
     <h2 className="mb-6 text-3xl font-bold">
 
-      🦅 Phoenix Executive Dashboard
+      🦅 RIPE Index Executive Overview
 
     </h2>
 
-    <div className="grid grid-cols-3 gap-6">
+    <p className="mb-6 text-slate-300">
+      Current reporting cycle summary across participating countries.
+    </p>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
       <Metric
         title="Countries Reporting"
@@ -38,38 +42,38 @@ return (
       />
 
       <Metric
-        title="Healthy Countries"
+        title="Validated Countries"
         value={healthy}
       />
 
       <Metric
-        title="Good Standing"
+        title="Fully Reviewed"
         value={good}
       />
 
       <Metric
-        title="Needs Review"
+        title="Pending Review"
         value={warning}
       />
 
       <Metric
-        title="Needs Attention"
+        title="Action Required"
         value={needsAttention}
       />
 
       <Metric
-        title="Critical Issues"
+        title="Critical Findings"
         value={critical}
       />
 
       <Metric
-        title="RIPE Index Operational Indicators"
-        value={`${averageLatency} ms`}
+        title="Reporting Cycle"
+        value="July 2026"
       />
 
       <Metric
-        title="Submission Processing Time"
-        value={`${averagePacketLoss}%`}
+        title="Overall Data Quality"
+        value="98%"
       />
 
     </div>

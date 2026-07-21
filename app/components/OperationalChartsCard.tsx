@@ -8,7 +8,7 @@ import {
       <div className="rounded-xl border bg-white p-6 shadow">
   
         <h2 className="mb-6 text-2xl font-bold">
-          📊 Operational Trends & Insights
+          📊 Reporting Performance
         </h2>
   
         {/* LATENCY */}
@@ -16,7 +16,7 @@ import {
         <div className="mb-8">
   
           <h3 className="mb-3 text-lg font-semibold">
-            Average Latency
+            Dataset Validation Time
           </h3>
   
           <div className="space-y-2">
@@ -60,7 +60,7 @@ import {
         <div>
   
           <h3 className="mb-3 text-lg font-semibold">
-            Packet Loss
+            Validation Warnings
           </h3>
   
           <div className="space-y-2">

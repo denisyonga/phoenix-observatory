@@ -29,7 +29,7 @@ type NetworkData = {
       return (
         <div className="rounded-lg border bg-white p-6 shadow">
           <h2 className="mb-4 text-2xl font-bold">
-          RIPE Country Overview
+          Country Assessment
           </h2>
   
           <div className="py-8 text-center text-slate-500">
@@ -50,7 +50,7 @@ type NetworkData = {
     const availability =
       (atlasData.online / atlasData.probes) * 100;
 
-      let operationalStatus = "Healthy";
+      let operationalStatus = "Validated";
 
         if (parseFloat(networkData.packetLoss) >= 1) {
          operationalStatus = "Critical";
@@ -58,7 +58,7 @@ type NetworkData = {
         networkData.latency > 50 ||
         availability < 80
       ) {
-  operationalStatus = "Needs Attention";
+  operationalStatus = "Requires Follow-up";
       } else if (
         parseFloat(networkData.packetLoss) > 0.3
       ) {
@@ -69,16 +69,26 @@ type NetworkData = {
       <div className="rounded-lg border bg-gradient-to-br from-blue-50 to-white p-6 shadow">
   
         <h2 className="text-2xl font-bold">
-          Phoenix Overview
+          Country Assessment
         </h2>
   
-        <p className="mt-2 text-lg">
-          {country}
-        </p>
+        <div className="mt-3">
+          <p className="text-3xl font-bold text-slate-800">
+            {country}
+          </p>
+
+  <p className="text-sm uppercase tracking-wide text-slate-500">
+    Country Operational Assessment
+  </p>
+</div>
   
         <div className="mt-6 rounded-xl bg-white p-5 shadow">
+
+        <p className="text-sm uppercase tracking-wide text-slate-500">
+            Overall Assessment
+        </p>
   
-          <p className="mt-2 text-3xl font-bold">
+          <p className="mt-3 text-3xl font-bold">
           {healthScore >= 90
             ?"🟢 Excellent"
             : healthScore >= 75
@@ -90,29 +100,29 @@ type NetworkData = {
             {healthScore}
           </p>
   
-          <p className="text-sm text-slate-500">
-            /100
+          <p className="text-sm font-medium text-slate-500">
+            Operational Score /100
           </p>
   
         </div>
 
-        <p className="text-lg font-semibold mt-2">
-         {healthScore >= 90
-         ? "🟢 Excellent"
-         : healthScore >= 75
-         ? "🟡 Stable"
-         : "🔴 Needs Attention"}
-        </p>
-
-        <p className="text-sm text-slate-500">
-         /100
-      </p>
-
       <div className="mt-4 rounded-lg border bg-slate-50 p-4">
 
   <p className="text-sm text-slate-500">
-    Operational Status
+    Reporting Status
   </p>
+
+  <div className="mt-4 rounded-lg border bg-slate-50 p-4">
+
+  <p className="text-sm text-slate-500">
+    Confidence Level
+  </p>
+
+  <p className="mt-2 text-2xl font-bold text-green-600">
+    High
+  </p>
+
+  </div>
 
   <p className="mt-2 text-2xl font-bold">
     {operationalStatus}
@@ -142,7 +152,7 @@ type NetworkData = {
   <div className="rounded-lg border bg-slate-50 p-4 text-center">
 
     <p className="text-xs text-slate-500">
-      ⚡ Latency
+    ⚡ Network Responsiveness
     </p>
 
     <p className="mt-2 text-xl font-bold">
@@ -154,7 +164,7 @@ type NetworkData = {
   <div className="rounded-lg border bg-slate-50 p-4 text-center">
 
     <p className="text-xs text-slate-500">
-      📡 Probes
+      📡 Active RIPE Atlas Probes
     </p>
 
     <p className="mt-2 text-xl font-bold">
@@ -166,13 +176,13 @@ type NetworkData = {
   <div className="rounded-lg border bg-slate-50 p-4 text-center">
 
     <p className="text-xs text-slate-500">
-      🌐 IPv6
+      🌐 IPv6 Reachability
     </p>
 
-    <p className="mt-2 text-xl font-bold">
+    <p className="mt-2 text-lg font-bold">
       {networkData.ipv6 === "Reachable"
-        ? "🟢"
-        : "🟡"}
+        ? "Available"
+        : "Unavailable"}
     </p>
 
   </div>

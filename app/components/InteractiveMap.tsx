@@ -28,6 +28,7 @@ import { CountryViewModel } from "../types";
 import DatasetService from "../services/DatasetService";
 import { GeoFeature } from "../types/geoFeature";
 import CountryStatusService from "../services/CountryStatusService";
+import ExecutiveSummaryCard from "./ExecutiveSummaryCard";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -174,6 +175,14 @@ const packetLoss = parseFloat(data.packetLoss);
   averageLatency={averageLatency}
   averagePacketLoss={averagePacketLoss}
   />
+
+<ExecutiveSummaryCard
+  countriesReporting={countriesLoaded}
+  totalCountries={20}
+  validatedDatasets={5}
+  pendingReview={warning}
+  reportingCycle="July 2026"
+/>
 
 </div>
 

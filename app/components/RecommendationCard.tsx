@@ -12,7 +12,7 @@ type Props = {
   
         <h2 className="mb-4 text-2xl font-bold">
   
-        🎯 Recommended Actions
+        🎯 Recommended Follow-up
   
         </h2>
   

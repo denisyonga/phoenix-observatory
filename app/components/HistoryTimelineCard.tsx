@@ -17,7 +17,7 @@ type Point = {
   
         <h2 className="mb-4 text-2xl font-bold">
   
-          Recent Monitoring Activity
+          Recent Reporting Activity
   
         </h2>
   

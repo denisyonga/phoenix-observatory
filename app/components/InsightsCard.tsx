@@ -9,7 +9,7 @@ export default function InsightsCard({
     <div className="rounded-xl border bg-white p-6 shadow">
 
       <h2 className="mb-4 text-2xl font-bold">
-        💡 Key Findings
+        💡 Assessment Highlights
       </h2>
 
       {!observations ? (
