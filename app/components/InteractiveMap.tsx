@@ -29,6 +29,10 @@ import DatasetService from "../services/DatasetService";
 import { GeoFeature } from "../types/geoFeature";
 import CountryStatusService from "../services/CountryStatusService";
 import ExecutiveSummaryCard from "./ExecutiveSummaryCard";
+import OperationalIntelligence from "./OperationalIntelligence";
+import ExecutiveBriefingCard from "./ExecutiveBriefingCard";
+import ExecutiveWatchlistCard from "./ExecutiveWatchlistCard";
+import { mockExecutiveWatchlist } from "../data/mockExecutiveWatchlist";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -149,7 +153,7 @@ const packetLoss = parseFloat(data.packetLoss);
 
   return (
 
-    <div className="p-8">
+    <div className="mx-auto max-w-screen-2xl px-4 py-6 md:px-6 xl:px-8">
 
       <PhoenixHeader
         dataset="RIPE_July.csv"
@@ -157,13 +161,10 @@ const packetLoss = parseFloat(data.packetLoss);
         countries={countryViews.length}
         updated="Today 10:15 UTC"
       />
-        <div className="mt-6 mb-6">
-
-        </div>
 
         <EnvironmentBanner />
 
-<div className="mt-6 mb-8">
+  <div className="mt-6 mb-8 space-y-8">
 
 <PhoenixExecutiveDashboard
   countriesLoaded={countriesLoaded}
@@ -174,7 +175,7 @@ const packetLoss = parseFloat(data.packetLoss);
   critical={critical}
   averageLatency={averageLatency}
   averagePacketLoss={averagePacketLoss}
-  />
+/>
 
 <ExecutiveSummaryCard
   countriesReporting={countriesLoaded}
@@ -184,12 +185,37 @@ const packetLoss = parseFloat(data.packetLoss);
   reportingCycle="July 2026"
 />
 
+<div className="mt-8">
+
+  <ExecutiveBriefingCard
+    programmeStatus="Operational"
+    reportingCycle="July 2026"
+    countriesReporting={countriesLoaded}
+    totalCountries={20}
+    pendingReview={warning}
+    criticalIssues={critical}
+  />
+
 </div>
 
-<div className="grid grid-cols-3 gap-6">
+<div className="mt-8">
+
+  <ExecutiveWatchlistCard
+    items={mockExecutiveWatchlist}
+  />
+
+</div>
+
+<div className="mt-8">
+  <OperationalIntelligence />
+</div>
+
+</div>
+
+<div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
 
           {/* MAP SECTION */}
-          <div className="col-span-2 space-y-8">
+          <div className="space-y-8 xl:col-span-2">
 
             <div className="mb-8">
               <OperationalChartsCard />
@@ -204,7 +230,7 @@ const packetLoss = parseFloat(data.packetLoss);
               placeholder="🔍 Search participating country..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="mb-4 w-full rounded-lg border border-slate-400 p-3 shadow-sm focus:border-blue-500 focus:outline-none"
+              className="mb-4 w-full rounded-lg border border-slate-400 p-3 text-base shadow-sm focus:border-blue-500 focus:outline-none"
             />
             {/* SEARCH RESULTS */}
 
@@ -234,7 +260,7 @@ const packetLoss = parseFloat(data.packetLoss);
 
               <svg
                 viewBox="0 0 900 700"
-                className="w-full"
+                className="h-auto w-full"
               >
                 {geoFeatures.map((geoFeature, index) => {
 
@@ -325,7 +351,7 @@ const packetLoss = parseFloat(data.packetLoss);
 
           {/* Information Panel */}
 
-          <div className="sticky top-6 self-start space-y-8">
+          <div className="space-y-8 xl:sticky xl:top-6 xl:self-start">
 
             <HealthOverviewCard
               country={selected}

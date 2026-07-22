@@ -60,7 +60,7 @@ import {
         <div>
   
           <h3 className="mb-3 text-lg font-semibold">
-            Validation Warnings
+            Validation Results
           </h3>
   
           <div className="space-y-2">
