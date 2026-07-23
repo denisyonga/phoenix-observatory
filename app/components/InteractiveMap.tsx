@@ -33,6 +33,7 @@ import OperationalIntelligence from "./OperationalIntelligence";
 import ExecutiveBriefingCard from "./ExecutiveBriefingCard";
 import ExecutiveWatchlistCard from "./ExecutiveWatchlistCard";
 import { mockExecutiveWatchlist } from "../data/mockExecutiveWatchlist";
+import ExecutiveGeographicFocusCard from "./ExecutiveGeographicFocusCard";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -256,7 +257,23 @@ const packetLoss = parseFloat(data.packetLoss);
                 : "🌍 Select a participating country to view RIPE indicators"}
             </p>
 
-            <div className="rounded-xl bg-white p-4 shadow-lg border">
+            <div className="grid gap-6 lg:grid-cols-5">
+
+    {/* MAP */}
+
+    <div className="lg:col-span-3 rounded-xl border bg-white p-4 shadow-lg">
+
+        <div className="mb-3 flex items-center justify-between">
+
+            <h3 className="font-semibold text-slate-700">
+                🛰 Geographic Selector
+            </h3>
+
+            <span className="text-sm text-slate-400">
+                Click a country
+            </span>
+
+        </div>
 
               <svg
                 viewBox="0 0 900 700"
@@ -307,7 +324,13 @@ const packetLoss = parseFloat(data.packetLoss);
                           strokeWidth={hovered === geoFeature.properties.NAME ? 2 : 0.5}
                           onMouseEnter={() => setHovered(geoFeature.properties.NAME)}
                           onMouseLeave={() => setHovered("")}
-                          onClick={() => setSelected(geoFeature.properties.NAME)}
+                          onClick={() =>
+                            setSelected(
+                              selected === geoFeature.properties.NAME
+                                ? ""
+                                : geoFeature.properties.NAME
+                            )
+                          }
                           className="transition-all duration-200"
                           style={{ cursor: "pointer" }}
 
@@ -317,6 +340,26 @@ const packetLoss = parseFloat(data.packetLoss);
                   );
                 })}
               </svg>
+            </div>
+
+            <div className="lg:col-span-2">
+
+            <ExecutiveGeographicFocusCard
+              country={selected}
+              region={
+              selected
+              ? "Southern Europe"
+              : undefined
+             }
+            healthScore={92}
+            status="Stable"
+            rank={4}
+            totalCountries={20}
+            lastUpdated="18 July 2026"
+            />
+
+            </div>
+
             </div>
 
             <div className="mt-8">
@@ -381,3 +424,4 @@ const packetLoss = parseFloat(data.packetLoss);
             
               );
 }
+
