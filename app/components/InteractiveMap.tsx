@@ -34,6 +34,7 @@ import ExecutiveBriefingCard from "./ExecutiveBriefingCard";
 import ExecutiveWatchlistCard from "./ExecutiveWatchlistCard";
 import { mockExecutiveWatchlist } from "../data/mockExecutiveWatchlist";
 import ExecutiveGeographicFocusCard from "./ExecutiveGeographicFocusCard";
+import ExecutiveIntelligenceService from "../services/ExecutiveIntelligenceService";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -46,6 +47,12 @@ export default function InteractiveMap() {
   const selectedCountryView = countryViews.find(
     (view) => view.country.name === selected
 );
+
+const executiveProfile =
+  ExecutiveIntelligenceService.getProfile(
+    selectedCountryView,
+    countryViews
+  );
 
   const filteredCountryViews = countryViews.filter((view) =>
     view.country.name.toLowerCase().includes(search.toLowerCase())
@@ -345,17 +352,13 @@ const packetLoss = parseFloat(data.packetLoss);
             <div className="lg:col-span-2">
 
             <ExecutiveGeographicFocusCard
-              country={selected}
-              region={
-              selected
-              ? "Southern Europe"
-              : undefined
-             }
-            healthScore={92}
-            status="Stable"
-            rank={4}
-            totalCountries={20}
-            lastUpdated="18 July 2026"
+              country={executiveProfile?.country}
+              region={executiveProfile?.region}
+              healthScore={executiveProfile?.healthScore}
+              status={executiveProfile?.status}
+              rank={executiveProfile?.rank}
+              totalCountries={executiveProfile?.totalCountries}
+              lastUpdated={executiveProfile?.lastUpdated}
             />
 
             </div>
