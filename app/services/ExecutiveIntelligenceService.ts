@@ -1,5 +1,6 @@
 import { CountryViewModel } from "../types";
 import CountryStatusService from "./CountryStatusService";
+import ExecutiveHistoryService from "./ExecutiveHistoryService";
 
 export type ExecutiveProfile = {
   country: string;
@@ -9,6 +10,18 @@ export type ExecutiveProfile = {
   rank: number;
   totalCountries: number;
   lastUpdated: string;
+};
+
+export type ExecutivePackage = {
+
+  profile: ExecutiveProfile;
+
+  trend: string;
+
+  averageHealth: number;
+
+  executiveSummary: string;
+
 };
 
 export default class ExecutiveIntelligenceService {
@@ -48,6 +61,46 @@ export default class ExecutiveIntelligenceService {
       lastUpdated: "18 July 2026",
 
     };
+  }
+
+  static getExecutivePackage(
+
+    view: CountryViewModel | undefined,
+  
+    allCountries: CountryViewModel[]
+  
+  ): ExecutivePackage | undefined {
+  
+    const profile = this.getProfile(
+      view,
+      allCountries
+    );
+  
+    if (!profile) {
+      return undefined;
+    }
+  
+    return {
+  
+      profile,
+  
+      trend:
+        ExecutiveHistoryService.getTrend(
+          profile.country
+        ),
+  
+      averageHealth:
+        ExecutiveHistoryService.getAverageHealth(
+          profile.country
+        ),
+  
+      executiveSummary:
+        ExecutiveHistoryService.getExecutiveSummary(
+          profile.country
+        ),
+  
+    };
+  
   }
 
   private static calculateHealth(
