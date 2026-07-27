@@ -1,3 +1,4 @@
+import React from "react";
 type Props = {
   countriesLoaded: number;
   healthy: number;
