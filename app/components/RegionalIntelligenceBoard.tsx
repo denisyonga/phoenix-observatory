@@ -1,3 +1,4 @@
+import React from "react";
 export default function RegionalIntelligenceBoard() {
     return (
       <div className="rounded-xl border bg-white p-6 shadow">

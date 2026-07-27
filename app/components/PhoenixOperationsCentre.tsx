@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import PhoenixExecutiveWorkspace
+  from "./PhoenixExecutiveWorkspace";
 import { useState } from "react";
 
 import PhoenixOperationsCentreHeader
@@ -30,21 +32,7 @@ export default function PhoenixOperationsCentre() {
          {/* Executive Office */}
 
         {activeWorkspace === "executive" && (
-        <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center">
-
-        <h2 className="text-2xl font-bold">
-      
-          🦅 Executive Workspace
-      
-        </h2>
-      
-        <p className="mt-3 text-slate-500">
-      
-          Executive Office will be rendered here.
-      
-        </p>
-      
-      </div>
+          <PhoenixExecutiveWorkspace />
         )}
 
       </PhoenixOperationsCentreHeader>
