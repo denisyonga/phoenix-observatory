@@ -2,67 +2,89 @@
 
 import React from "react";
 
+import PhoenixOperationsService
+    from "../services/PhoenixOperationsService";
+
+import PhoenixOperationsFilter
+    from "./PhoenixOperationsFilter";
+
+import PhoenixNorthStar from "./PhoenixNorthStar";
+import PhoenixOperationsHealth from "./PhoenixOperationsHealth";
+import PhoenixOperationsStatusIndicators from "./PhoenixOperationsStatusIndicators";
+import PhoenixOperationsActivityBoard from "./PhoenixOperationsActivityBoard";
+import PhoenixCountryOperationsPanel from "./PhoenixCountryOperationsPanel";
+import PhoenixOperationalTimeline from "./PhoenixOperationalTimeline";
+
 export default function PhoenixOperationsWorkspace() {
 
-  return (
+    const countries = PhoenixOperationsService.getCountries();
 
-    <section className="rounded-xl bg-white p-8 shadow-sm">
+    const [selectedCountry, setSelectedCountry] =
+        React.useState("ALL");
 
-      <div className="space-y-4">
+    return (
 
-        <div className="text-5xl">
+        <section className="space-y-8">
 
-          🌍
+            <PhoenixNorthStar
 
-        </div>
+                icon="🌍"
 
-        <h2 className="text-3xl font-bold text-slate-900">
+                title="Operational Health"
 
-          Operations Centre
+                value="92%"
 
-        </h2>
+                subtitle="Healthy programme across participating countries."
 
-        <p className="text-lg leading-8 text-slate-600">
+                colour="green"
 
-          Welcome to the operational heart of Phoenix.
+            />
 
-          This workspace coordinates programme execution,
-          country participation, workflow management,
-          validation and publication readiness across the
-          RIPE ecosystem.
+            <PhoenixOperationsFilter
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                countries={countries}
+            />
 
-        </p>
+            <PhoenixOperationsHealth
 
-      </div>
+                countriesReporting={18}
 
-      <div className="mt-8 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-6">
+                totalCountries={20}
 
-        <h3 className="text-lg font-semibold text-slate-800">
+                pendingValidation={3}
 
-          Coming Soon
+                activeAlerts={1}
 
-        </h3>
+            />
 
-        <ul className="mt-4 space-y-2 text-slate-600">
+            <PhoenixOperationsStatusIndicators
 
-          <li>✅ Country Workflow Monitor</li>
+                submissions={18}
 
-          <li>🚧 Submission Queue</li>
+                totalCountries={20}
 
-          <li>🚧 Validation Pipeline</li>
+                pendingValidation={3}
 
-          <li>🚧 Publication Readiness</li>
+                publications={15}
 
-          <li>🚧 Regional Coordination Board</li>
+                activeAlerts={1}
 
-          <li>🚧 Operational Alerts</li>
+            />
 
-        </ul>
+            <PhoenixOperationsActivityBoard
+                selectedCountry={selectedCountry}
+            />
 
-      </div>
+            <PhoenixCountryOperationsPanel
+                selectedCountry={selectedCountry}
+            />
 
-    </section>
+            <PhoenixOperationalTimeline
+                selectedCountry={selectedCountry}
+            />
+        </section>
 
-  );
+    );
 
 }
