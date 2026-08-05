@@ -4,60 +4,75 @@ import React from "react";
 import { generateExecutiveNarrative } from "../utils/generateExecutiveNarrative";
 
 type Props = {
-    programmeStatus: string;
-    reportingCycle: string;
-    countriesReporting: number;
-    totalCountries: number;
-    pendingReview: number;
-    criticalIssues: number;
+  programmeStatus: string;
+  reportingCycle: string;
+
+  countriesReporting: number;
+  totalCountries: number;
+  pendingReview: number;
+  criticalIssues: number;
+
+  selectedCountry?: {
+    flag: string;
+    name: string;
+    status: string;
+    statusIcon: string;
+    programmeManager: string;
+    latestUpdate: string;
+    nextMilestone: string;
+    recommendation: string;
+    submission: string;
+    publication: string;
+  };
 };
 
 export default function ExecutiveBriefingCard({
 
-    programmeStatus,
-    reportingCycle,
-    countriesReporting,
-    totalCountries,
-    pendingReview,
-    criticalIssues,
+  programmeStatus,
+  reportingCycle,
+  countriesReporting,
+  totalCountries,
+  pendingReview,
+  criticalIssues,
+  selectedCountry,
 
 }: Props) {
 
-    // ✅ Hooks belong here
+  // ✅ Hooks belong here
 
-    const [greeting, setGreeting] =
-        React.useState("Welcome 🦅");
+  const [greeting, setGreeting] =
+    React.useState("Welcome 🦅");
 
-    React.useEffect(() => {
+  React.useEffect(() => {
 
-        const hour = new Date().getHours();
+    const hour = new Date().getHours();
 
-        if (hour < 12) {
+    if (hour < 12) {
 
-            setGreeting("Good morning ☀️");
+      setGreeting("Good morning ☀️");
 
-        } else if (hour < 18) {
+    } else if (hour < 18) {
 
-            setGreeting("Good afternoon 🌤");
+      setGreeting("Good afternoon 🌤");
 
-        } else {
+    } else {
 
-            setGreeting("Good evening 🌙");
+      setGreeting("Good evening 🌙");
 
-        }
+    }
 
-    }, []);
+  }, []);
 
-    const executiveNarrative =
-        generateExecutiveNarrative(
-            countriesReporting,
-            totalCountries,
-            pendingReview,
-            criticalIssues
-        );
+  const executiveNarrative =
+    generateExecutiveNarrative(
+      countriesReporting,
+      totalCountries,
+      pendingReview,
+      criticalIssues
+    );
 
-    return (
-      
+  return (
+
     <div className="rounded-xl border bg-gradient-to-r from-sky-50 to-white p-6 shadow">
 
       <h2 className="text-2xl font-bold">
@@ -101,6 +116,68 @@ export default function ExecutiveBriefingCard({
           <p className="mt-2">
             {reportingCycle}
           </p>
+
+          {selectedCountry && (
+
+            <div className="rounded-lg border bg-white p-5">
+
+              <h3 className="font-semibold text-slate-800">
+                🌍 Executive Country Brief
+              </h3>
+
+              <div className="mt-4 space-y-3">
+
+                <h4 className="text-xl font-bold text-slate-900">
+                  {selectedCountry.flag} {selectedCountry.name}
+                </h4>
+
+                <p>
+                  <strong>Operational Health:</strong>{" "}
+                  {selectedCountry.statusIcon} {selectedCountry.status}
+                </p>
+
+                <p>
+                  <strong>Programme Manager:</strong>{" "}
+                  {selectedCountry.programmeManager}
+                </p>
+
+                <p>
+                  <strong>Reporting Status:</strong>{" "}
+                  {selectedCountry.submission}
+                </p>
+
+                <p>
+                  <strong>Publication Status:</strong>{" "}
+                  {selectedCountry.publication}
+                </p>
+
+                <p>
+                  <strong>Latest Update:</strong>{" "}
+                  {selectedCountry.latestUpdate}
+                </p>
+
+                <p>
+                  <strong>Next Milestone:</strong>{" "}
+                  {selectedCountry.nextMilestone}
+                </p>
+
+              </div>
+
+              <div className="mt-5 rounded-lg border border-sky-100 bg-sky-50 p-4">
+
+                <h4 className="font-semibold text-sky-900">
+                  🦅 Executive Recommendation
+                </h4>
+
+                <p className="mt-2 text-slate-700">
+                  {selectedCountry.recommendation}
+                </p>
+
+              </div>
+
+            </div>
+
+          )}
 
         </div>
 

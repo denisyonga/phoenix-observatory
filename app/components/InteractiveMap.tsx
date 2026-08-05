@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { useEffect, useState } from "react";
 import CountryInfoPanel from "./CountryInfoPanel";
 import { mockNetworkData } from "./data/mockNetworkData";
@@ -35,6 +37,8 @@ import ExecutiveWatchlistCard from "./ExecutiveWatchlistCard";
 import { mockExecutiveWatchlist } from "../data/mockExecutiveWatchlist";
 import ExecutiveGeographicFocusCard from "./ExecutiveGeographicFocusCard";
 import ExecutiveIntelligenceService from "../services/ExecutiveIntelligenceService";
+import PhoenixOperationsService
+  from "../services/PhoenixOperationsService";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -46,13 +50,13 @@ export default function InteractiveMap() {
     useState<CountryViewModel[]>([]);
   const selectedCountryView = countryViews.find(
     (view) => view.country.name === selected
-);
-
-const executiveProfile =
-  ExecutiveIntelligenceService.getProfile(
-    selectedCountryView,
-    countryViews
   );
+
+  const executiveProfile =
+    ExecutiveIntelligenceService.getProfile(
+      selectedCountryView,
+      countryViews
+    );
 
   const filteredCountryViews = countryViews.filter((view) =>
     view.country.name.toLowerCase().includes(search.toLowerCase())
@@ -68,10 +72,10 @@ const executiveProfile =
       ? mockAtlasData[selected as keyof typeof mockAtlasData]
       : undefined;
 
-      const historyData =
-      selected
-        ? mockActivityData[selected as keyof typeof mockActivityData]
-        : undefined;
+  const historyData =
+    selected
+      ? mockActivityData[selected as keyof typeof mockActivityData]
+      : undefined;
 
   const observations =
     networkData && atlasData
@@ -88,19 +92,19 @@ const executiveProfile =
   const healthy = countryViews.filter(
     view => CountryStatusService.getStatus(view) === "Healthy"
   ).length;
-  
+
   const good = countryViews.filter(
     view => CountryStatusService.getStatus(view) === "Good"
   ).length;
-  
+
   const warning = countryViews.filter(
     view => CountryStatusService.getStatus(view) === "Warning"
   ).length;
-  
+
   const needsAttention = countryViews.filter(
     view => CountryStatusService.getStatus(view) === "Needs Attention"
   ).length;
-  
+
   const critical = countryViews.filter(
     view => CountryStatusService.getStatus(view) === "Critical"
   ).length;
@@ -114,50 +118,56 @@ const executiveProfile =
       ? generateRecommendations(networkData, atlasData)
       : undefined;
 
-      function getCountryColor(view?: CountryViewModel): string {
-        if (!view) {
-          // Country exists on the map but has no RIPE data
-          return "#e5e7eb";
-        }
-      
-        const data =
-        mockNetworkData[
-        view.country.name as keyof typeof mockNetworkData
-        ];
+  function getCountryColor(view?: CountryViewModel): string {
+    if (!view) {
+      // Country exists on the map but has no RIPE data
+      return "#e5e7eb";
+    }
 
-const packetLoss = parseFloat(data.packetLoss);
-      
-        if (!data) {
-          return "#e5e7eb";
-        }
-      
-        // Temporary demo rules
-        if (packetLoss >= 1) return "#dc2626";      // Red
-        if (packetLoss >= 0.5) return "#f59e0b";    // Orange
-        if (packetLoss >= 0.2) return "#eab308";    // Yellow
-      
-        return "#22c55e"; // Green
-      }
+    const data =
+      mockNetworkData[
+      view.country.name as keyof typeof mockNetworkData
+      ];
 
-      useEffect(() => {
-        async function initialize() {
+    const packetLoss = parseFloat(data.packetLoss);
 
-          console.log("Loading GeoJSON...");
-        
-          const features =
-            await DatasetService.getGeoFeatures();
+    if (!data) {
+      return "#e5e7eb";
+    }
 
-          setGeoFeatures(features);
+    // Temporary demo rules
+    if (packetLoss >= 1) return "#dc2626";      // Red
+    if (packetLoss >= 0.5) return "#f59e0b";    // Orange
+    if (packetLoss >= 0.2) return "#eab308";    // Yellow
 
-          const views =
-            await CountryViewService.getCountryViews();
+    return "#22c55e"; // Green
+  }
 
-          setCountryViews(views);
-        
-        }
-      
-        initialize();
-      }, []);;
+  useEffect(() => {
+    async function initialize() {
+
+      console.log("Loading GeoJSON...");
+
+      const features =
+        await DatasetService.getGeoFeatures();
+
+      setGeoFeatures(features);
+
+      const views =
+        await CountryViewService.getCountryViews();
+
+      setCountryViews(views);
+
+    }
+
+    initialize();
+  }, []);;
+
+  const countries =
+    PhoenixOperationsService.getCountries();
+
+  const selectedCountry =
+    countries[0];
 
   return (
 
@@ -170,117 +180,118 @@ const packetLoss = parseFloat(data.packetLoss);
         updated="Today 10:15 UTC"
       />
 
-        <EnvironmentBanner />
+      <EnvironmentBanner />
 
-  <div className="mt-6 mb-8 space-y-8">
+      <div className="mt-6 mb-8 space-y-8">
 
-<PhoenixExecutiveDashboard
-  countriesLoaded={countriesLoaded}
-  healthy={healthy}
-  good={good}
-  warning={warning}
-  needsAttention={needsAttention}
-  critical={critical}
-  averageLatency={averageLatency}
-  averagePacketLoss={averagePacketLoss}
-/>
+        <PhoenixExecutiveDashboard
+          countriesLoaded={countriesLoaded}
+          healthy={healthy}
+          good={good}
+          warning={warning}
+          needsAttention={needsAttention}
+          critical={critical}
+          averageLatency={averageLatency}
+          averagePacketLoss={averagePacketLoss}
+        />
 
-<ExecutiveSummaryCard
-  countriesReporting={countriesLoaded}
-  totalCountries={20}
-  validatedDatasets={5}
-  pendingReview={warning}
-  reportingCycle="July 2026"
-/>
+        <ExecutiveSummaryCard
+          countriesReporting={countriesLoaded}
+          totalCountries={20}
+          validatedDatasets={5}
+          pendingReview={warning}
+          reportingCycle="July 2026"
+        />
 
-<div className="mt-8">
+        <div className="mt-8">
 
-  <ExecutiveBriefingCard
-    programmeStatus="Operational"
-    reportingCycle="July 2026"
-    countriesReporting={countriesLoaded}
-    totalCountries={20}
-    pendingReview={warning}
-    criticalIssues={critical}
-  />
-
-</div>
-
-<div className="mt-8">
-
-  <ExecutiveWatchlistCard
-    items={mockExecutiveWatchlist}
-  />
-
-</div>
-
-<div className="mt-8">
-  <OperationalIntelligence />
-</div>
-
-</div>
-
-<div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
-
-          {/* MAP SECTION */}
-          <div className="space-y-8 xl:col-span-2">
-
-            <div className="mb-8">
-              <OperationalChartsCard />
-            </div>
-
-            <h2 className="mb-6 text-3xl font-bold">
-              {hovered || "Participating Countries"}
-            </h2>
-
-            <input
-              type="text"
-              placeholder="🔍 Search participating country..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="mb-4 w-full rounded-lg border border-slate-400 p-3 text-base shadow-sm focus:border-blue-500 focus:outline-none"
-            />
-            {/* SEARCH RESULTS */}
-
-            {search && (
-              <div className="mb-4 rounded-lg border bg-white shadow">
-                {filteredCountryViews.slice(0, 8).map((view) => (
-                  <div
-                  key={view.country.iso3}
-                    className="cursor-pointer border-b p-3 hover:bg-blue-50"
-                    onClick={() => {
-                      setSelected(view.country.name)
-                      setSearch("");
-                    }}
-                  >
-                    {view.country.name}
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className="mb-4 text-lg text-slate-600">
-              {selected
-                ? `📍 Selected Country: ${selected}`
-                : "🌍 Select a participating country to view RIPE indicators"}
-            </p>
-
-            <div className="grid gap-6 lg:grid-cols-5">
-
-    {/* MAP */}
-
-    <div className="lg:col-span-3 rounded-xl border bg-white p-4 shadow-lg">
-
-        <div className="mb-3 flex items-center justify-between">
-
-            <h3 className="font-semibold text-slate-700">
-                🛰 Geographic Selector
-            </h3>
-
-            <span className="text-sm text-slate-400">
-                Click a country
-            </span>
+          <ExecutiveBriefingCard
+            programmeStatus="Operational"
+            reportingCycle="July 2026"
+            countriesReporting={countriesLoaded}
+            totalCountries={20}
+            pendingReview={warning}
+            criticalIssues={critical}
+            selectedCountry={selectedCountry}
+          />
 
         </div>
+
+        <div className="mt-8">
+
+          <ExecutiveWatchlistCard
+            items={mockExecutiveWatchlist}
+          />
+
+        </div>
+
+        <div className="mt-8">
+          <OperationalIntelligence />
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
+
+        {/* MAP SECTION */}
+        <div className="space-y-8 xl:col-span-2">
+
+          <div className="mb-8">
+            <OperationalChartsCard />
+          </div>
+
+          <h2 className="mb-6 text-3xl font-bold">
+            {hovered || "Participating Countries"}
+          </h2>
+
+          <input
+            type="text"
+            placeholder="🔍 Search participating country..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mb-4 w-full rounded-lg border border-slate-400 p-3 text-base shadow-sm focus:border-blue-500 focus:outline-none"
+          />
+          {/* SEARCH RESULTS */}
+
+          {search && (
+            <div className="mb-4 rounded-lg border bg-white shadow">
+              {filteredCountryViews.slice(0, 8).map((view) => (
+                <div
+                  key={view.country.iso3}
+                  className="cursor-pointer border-b p-3 hover:bg-blue-50"
+                  onClick={() => {
+                    setSelected(view.country.name)
+                    setSearch("");
+                  }}
+                >
+                  {view.country.name}
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mb-4 text-lg text-slate-600">
+            {selected
+              ? `📍 Selected Country: ${selected}`
+              : "🌍 Select a participating country to view RIPE indicators"}
+          </p>
+
+          <div className="grid gap-6 lg:grid-cols-5">
+
+            {/* MAP */}
+
+            <div className="lg:col-span-3 rounded-xl border bg-white p-4 shadow-lg">
+
+              <div className="mb-3 flex items-center justify-between">
+
+                <h3 className="font-semibold text-slate-700">
+                  🛰 Geographic Selector
+                </h3>
+
+                <span className="text-sm text-slate-400">
+                  Click a country
+                </span>
+
+              </div>
 
               <svg
                 viewBox="0 0 900 700"
@@ -289,7 +300,7 @@ const packetLoss = parseFloat(data.packetLoss);
                 {geoFeatures.map((geoFeature, index) => {
 
                   const view = countryViews.find(
-                  (v) => v.country.iso3 === geoFeature.properties.ISO3
+                    (v) => v.country.iso3 === geoFeature.properties.ISO3
                   );
 
                   const geometry = geoFeature.geometry;
@@ -351,80 +362,80 @@ const packetLoss = parseFloat(data.packetLoss);
 
             <div className="lg:col-span-2">
 
-            <ExecutiveGeographicFocusCard
-              country={executiveProfile?.country}
-              region={executiveProfile?.region}
-              healthScore={executiveProfile?.healthScore}
-              status={executiveProfile?.status}
-              rank={executiveProfile?.rank}
-              totalCountries={executiveProfile?.totalCountries}
-              lastUpdated={executiveProfile?.lastUpdated}
-            />
+              <ExecutiveGeographicFocusCard
+                country={executiveProfile?.country}
+                region={executiveProfile?.region}
+                healthScore={executiveProfile?.healthScore}
+                status={executiveProfile?.status}
+                rank={executiveProfile?.rank}
+                totalCountries={executiveProfile?.totalCountries}
+                lastUpdated={executiveProfile?.lastUpdated}
+              />
 
             </div>
+
+          </div>
+
+          <div className="mt-8">
+            <h2 className="mb-4 text-2xl font-bold text-slate-700">
+              Operational Timeline
+            </h2>
+
+            <HistoryTimelineCard
+              history={historyData}
+            />
+
+            <div className="mt-8">
+
+              <UploadInboxCard
+                uploads={mockUploads}
+              />
 
             </div>
 
             <div className="mt-8">
-              <h2 className="mb-4 text-2xl font-bold text-slate-700">
-              Operational Timeline
-              </h2>
 
-              <HistoryTimelineCard
-                history={historyData}
+              <ValidationSummaryCard
+                rows={mockValidation.rows}
+                warnings={mockValidation.warnings}
+                errors={mockValidation.errors}
               />
 
-              <div className="mt-8">
-
-                <UploadInboxCard
-                  uploads={mockUploads}
-                />
-
-              </div>
-
-              <div className="mt-8">
-
-                <ValidationSummaryCard
-                  rows={mockValidation.rows}
-                  warnings={mockValidation.warnings}
-                  errors={mockValidation.errors}
-                />
-
-              </div>
-
             </div>
+
           </div>
+        </div>
 
-          {/* Information Panel */}
+        {/* Information Panel */}
 
-          <div className="space-y-8 xl:sticky xl:top-6 xl:self-start">
+        <div className="space-y-8 xl:sticky xl:top-6 xl:self-start">
 
-            <HealthOverviewCard
-              country={selected}
-              networkData={networkData}
-              atlasData={atlasData}
-            />
+          <HealthOverviewCard
+            country={selected}
+            networkData={networkData}
+            atlasData={atlasData}
+          />
 
-            <InsightsCard
-              observations={observations}
-            />
+          <InsightsCard
+            observations={observations}
+          />
 
-            <RecommendationCard
-              recommendations={recommendations}
-            />
+          <RecommendationCard
+            recommendations={recommendations}
+          />
 
-            <CountryInfoPanel
-              selectedCountry={selectedCountryView?.geometry}
-            />
+          <CountryInfoPanel
+            selectedCountry={selectedCountryView?.geometry}
+          />
 
-            <AtlasStatusCard
-              atlasData={atlasData}
-            />
+          <AtlasStatusCard
+            atlasData={atlasData}
+          />
 
-                </div>
-              </div>
-              </div>
-            
-              );
+        </div>
+      </div>
+    </div>
+
+  );
 }
 
