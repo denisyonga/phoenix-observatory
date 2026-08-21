@@ -1,116 +1,110 @@
 import React from "react";
+
+import { DatasetSummary } from "../types/DatasetSummary";
+
 type Props = {
-  countriesLoaded: number;
+  summary: DatasetSummary;
+
   healthy: number;
   good: number;
   warning: number;
   needsAttention: number;
   critical: number;
-  averageLatency: number;
-  averagePacketLoss: number;
 };
 
 export default function PhoenixExecutiveDashboard({
-  countriesLoaded,
+  summary,
   healthy,
   good,
   warning,
   needsAttention,
   critical,
-  averageLatency,
-  averagePacketLoss,
 }: Props) {
 
-return (
+  return (
 
-  <div className="rounded-xl border bg-gradient-to-r from-slate-900 to-slate-800 p-6 text-white shadow-lg">
+    <div className="rounded-xl border bg-gradient-to-r from-slate-900 to-slate-800 p-6 text-white shadow-lg">
 
-    <h2 className="mb-6 text-3xl font-bold">
+      <h2 className="mb-6 text-3xl font-bold">
+        🦅 RIPE Index Executive Overview
+      </h2>
 
-      🦅 RIPE Index Executive Overview
+      <p className="mb-6 text-slate-300">
+        Current reporting cycle summary across participating countries.
+      </p>
 
-    </h2>
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
 
-    <p className="mb-6 text-slate-300">
-      Current reporting cycle summary across participating countries.
-    </p>
+        <Metric
+          title="Countries in Dataset"
+          value={summary.totalCountries}
+        />
 
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <Metric
+          title="Countries With Scores"
+          value={summary.countriesWithScores}
+        />
 
-      <Metric
-        title="Countries Reporting"
-        value={countriesLoaded}
-      />
+        <Metric
+          title="Average RIPE Score"
+          value={summary.averageScore}
+        />
 
-      <Metric
-        title="Validated Countries"
-        value={healthy}
-      />
+        <Metric
+          title="Indicators Available"
+          value={summary.indicatorsAvailable}
+        />
 
-      <Metric
-        title="Fully Reviewed"
-        value={good}
-      />
+        <Metric
+          title="Healthy"
+          value={healthy}
+        />
 
-      <Metric
-        title="Pending Review"
-        value={warning}
-      />
+        <Metric
+          title="Good"
+          value={good}
+        />
 
-      <Metric
-        title="Action Required"
-        value={needsAttention}
-      />
+        <Metric
+          title="Pending Review"
+          value={warning}
+        />
 
-      <Metric
-        title="Critical Findings"
-        value={critical}
-      />
+        <Metric
+          title="Action Required"
+          value={needsAttention + critical}
+        />
 
-      <Metric
-        title="Reporting Cycle"
-        value="July 2026"
-      />
-
-      <Metric
-        title="Overall Data Quality"
-        value="98%"
-      />
+      </div>
 
     </div>
 
-  </div>
-
-);
+  );
 
 }
 
 function Metric({
-title,
-value,
+  title,
+  value,
 }: {
-title: string;
-value: string | number;
+  title: string;
+  value: string | number;
 }) {
 
-return (
+  return (
 
-  <div className="rounded-lg bg-white/10 p-6">
+    <div className="rounded-lg bg-white/10 p-6">
 
-    <p className="text-sm text-slate-300">
+      <p className="text-sm text-slate-300">
+        {title}
+      </p>
 
-      {title}
+      <p className="mt-2 text-2xl font-bold">
+        {value}
+      </p>
 
-    </p>
+    </div>
 
-    <p className="mt-2 text-2xl font-bold">
-
-      {value}
-
-    </p>
-
-  </div>
-
-);
+  );
 
 }

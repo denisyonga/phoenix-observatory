@@ -39,6 +39,7 @@ import ExecutiveGeographicFocusCard from "./ExecutiveGeographicFocusCard";
 import ExecutiveIntelligenceService from "../services/ExecutiveIntelligenceService";
 import PhoenixOperationsService
   from "../services/PhoenixOperationsService";
+import { DatasetSummary } from "../types/DatasetSummary";
 
 export default function InteractiveMap() {
   const [hovered, setHovered] = useState("");
@@ -48,6 +49,8 @@ export default function InteractiveMap() {
     useState<GeoFeature[]>([]);
   const [countryViews, setCountryViews] =
     useState<CountryViewModel[]>([]);
+  const [datasetSummary, setDatasetSummary] =
+    useState<DatasetSummary | undefined>();
   const selectedCountryView = countryViews.find(
     (view) => view.country.name === selected
   );
@@ -135,6 +138,9 @@ export default function InteractiveMap() {
       return "#e5e7eb";
     }
 
+    const [datasetSummary, setDatasetSummary] =
+      useState<DatasetSummary | undefined>();
+
     // Temporary demo rules
     if (packetLoss >= 1) return "#dc2626";      // Red
     if (packetLoss >= 0.5) return "#f59e0b";    // Orange
@@ -146,7 +152,10 @@ export default function InteractiveMap() {
   useEffect(() => {
     async function initialize() {
 
-      console.log("Loading GeoJSON...");
+      const summaryData =
+        DatasetService.getDatasetSummary();
+
+      setDatasetSummary(summaryData);
 
       const features =
         await DatasetService.getGeoFeatures();
@@ -161,7 +170,7 @@ export default function InteractiveMap() {
     }
 
     initialize();
-  }, []);;
+  }, []);
 
   const countries =
     PhoenixOperationsService.getCountries();
@@ -185,14 +194,17 @@ export default function InteractiveMap() {
       <div className="mt-6 mb-8 space-y-8">
 
         <PhoenixExecutiveDashboard
-          countriesLoaded={countriesLoaded}
+          summary={datasetSummary ?? {
+            totalCountries: 0,
+            countriesWithScores: 0,
+            averageScore: 0,
+            indicatorsAvailable: 0,
+          }}
           healthy={healthy}
           good={good}
           warning={warning}
           needsAttention={needsAttention}
           critical={critical}
-          averageLatency={averageLatency}
-          averagePacketLoss={averagePacketLoss}
         />
 
         <ExecutiveSummaryCard

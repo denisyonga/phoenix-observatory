@@ -1,3 +1,14 @@
+import { OperationalState }
+    from "../types/OperationalState";
+
+import { PhoenixOperationalEvent }
+    from "../types/PhoenixOperationalEvent";
+
+import {
+    getOperationalTemporalPosition
+}
+    from "../utils/formatOperationalDate";
+
 export const activities = [
 
     {
@@ -188,9 +199,47 @@ export default class PhoenixOperationsService {
         return timeline;
     }
 
+    static getOperationalEvents(): PhoenixOperationalEvent[] {
+
+        return timeline.map((item) => ({
+    
+            id: item.id,
+    
+            title: item.milestone,
+    
+            eventDate: item.dueDate,
+    
+            country: item.country,
+    
+            owner: item.owner,
+    
+            temporalPosition: item.dueDate
+                ? getOperationalTemporalPosition(item.dueDate)
+                : undefined,
+    
+            state: item.operationalState,
+    
+            priority: item.priority,
+    
+        }));
+    
+    }
+
 }
 
-export const timeline = [
+interface OperationalTimelineItem {
+    id: number;
+    flag: string;
+    country: string;
+    milestone: string;
+    owner: string;
+    dueDate?: string;
+    due: string;
+    priority: string;
+    operationalState: OperationalState;
+}
+
+export const timeline: OperationalTimelineItem[] = [
 
     {
         id: 1,
@@ -203,11 +252,13 @@ export const timeline = [
 
         owner: "Maria Popescu",
 
+        dueDate: "2026-08-13",
+
         due: "Today",
 
         priority: "normal",
 
-        status: "today",
+        operationalState: "scheduled",
     },
 
     {
@@ -221,11 +272,13 @@ export const timeline = [
 
         owner: "Carlos Ruiz",
 
+        dueDate: "2026-08-16",
+
         due: "In 3 days",
 
         priority: "high",
 
-        status: "upcoming",
+        operationalState: "pending",
     },
 
     {
@@ -239,11 +292,13 @@ export const timeline = [
 
         owner: "Programme Team",
 
+        dueDate: "2026-08-14T14:00:00",
+
         due: "Tomorrow 14:00",
 
         priority: "normal",
 
-        status: "scheduled",
+        operationalState: "scheduled",
     },
 
     {
@@ -261,7 +316,7 @@ export const timeline = [
 
         priority: "low",
 
-        status: "completed",
+        operationalState: "completed",
     },
 
 ];

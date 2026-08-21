@@ -5,6 +5,11 @@ import React from "react";
 import PhoenixOperationsService
     from "../services/PhoenixOperationsService";
 
+import {
+    formatOperationalDate,
+}
+    from "../utils/formatOperationalDate";
+
 interface PhoenixOperationalTimelineProps {
     selectedCountry: string;
 }
@@ -14,7 +19,7 @@ export default function PhoenixOperationalTimeline({
 }: PhoenixOperationalTimelineProps) {
 
     const timeline =
-        PhoenixOperationsService.getTimeline();
+        PhoenixOperationsService.getOperationalEvents();
 
     const visibleTimeline =
         selectedCountry === "ALL"
@@ -46,82 +51,84 @@ export default function PhoenixOperationalTimeline({
 
             <div className="space-y-4">
 
-                {visibleTimeline.map((item) => (
+                {visibleTimeline.map((item) => {
 
-                    <div
+                    return (
+                        <div
+                            key={item.id}
 
-                        key={item.id}
+                            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
 
-                        className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+                        >
 
-                    >
+                            <div className="flex items-start justify-between">
 
-                        <div className="flex items-start justify-between">
+                                <div>
 
-                            <div>
+                                    <h4 className="text-lg font-bold text-slate-900">
 
-                                <h4 className="text-lg font-bold text-slate-900">
+                                        {item.country}
 
-                                    {item.flag} {item.country}
+                                    </h4>
 
-                                </h4>
+                                    <p className="mt-1 text-slate-600">
 
-                                <p className="mt-1 text-slate-600">
+                                        {item.title}
 
-                                    {item.milestone}
+                                    </p>
+
+                                </div>
+
+                                <span
+
+                                    className={`rounded-full px-3 py-1 text-xs font-medium ${item.priority === "high"
+                                        ? "bg-red-100 text-red-700"
+                                        : item.priority === "normal"
+                                            ? "bg-sky-100 text-sky-700"
+                                            : "bg-slate-100 text-slate-600"
+                                        }`}
+
+                                >
+
+                                    {(item.priority ?? "normal").toUpperCase()}
+
+                                </span>
+
+                            </div>
+
+                            <div className="mt-5 border-t border-slate-100 pt-4 space-y-2 text-sm">
+
+                                <p>
+
+                                    <strong>👤 Owner:</strong>{" "}
+
+                                    {item.owner}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>🎯 Milestone:</strong>{" "}
+
+                                    {item.title}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>⏳ Due:</strong>{" "}
+
+                                    {item.eventDate
+                                        ? formatOperationalDate(item.eventDate)
+                                        : "No date"}
 
                                 </p>
 
                             </div>
 
-                            <span
-
-                                className={`rounded-full px-3 py-1 text-xs font-medium ${item.priority === "high"
-                                        ? "bg-red-100 text-red-700"
-                                        : item.priority === "normal"
-                                            ? "bg-sky-100 text-sky-700"
-                                            : "bg-slate-100 text-slate-600"
-                                    }`}
-
-                            >
-
-                                {item.priority.toUpperCase()}
-
-                            </span>
-
                         </div>
-
-                        <div className="mt-5 border-t border-slate-100 pt-4 space-y-2 text-sm">
-
-                            <p>
-
-                                <strong>👤 Owner:</strong>{" "}
-
-                                {item.owner}
-
-                            </p>
-
-                            <p>
-
-                                <strong>🎯 Milestone:</strong>{" "}
-
-                                {item.milestone}
-
-                            </p>
-
-                            <p>
-
-                                <strong>⏳ Due:</strong>{" "}
-
-                                {item.due}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                ))}
+                    );
+                })}
 
             </div>
 

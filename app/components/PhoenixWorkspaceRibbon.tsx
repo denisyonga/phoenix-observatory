@@ -35,6 +35,12 @@ const workspaces = [
       icon: "🤖",
       label: "Intelligence",
     },
+
+    {
+      id: "public",
+      icon: "🌐",
+      label: "Public Gate",
+    },
   ];
   
   type Props = {
@@ -45,7 +51,7 @@ const workspaces = [
     ) => void;
 
     children?: React.ReactNode;
-    
+
   };
   
   export default function PhoenixWorkspaceRibbon({

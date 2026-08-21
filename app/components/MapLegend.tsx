@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function MapLegend() {
     return (
       <div className="flex justify-center gap-6 p-4 bg-white shadow m-8 rounded-lg">

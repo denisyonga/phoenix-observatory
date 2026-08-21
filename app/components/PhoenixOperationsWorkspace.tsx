@@ -14,6 +14,8 @@ import PhoenixOperationsStatusIndicators from "./PhoenixOperationsStatusIndicato
 import PhoenixOperationsActivityBoard from "./PhoenixOperationsActivityBoard";
 import PhoenixCountryOperationsPanel from "./PhoenixCountryOperationsPanel";
 import PhoenixOperationalTimeline from "./PhoenixOperationalTimeline";
+import PhoenixOperationsAlmanac
+    from "./PhoenixOperationsAlmanac";
 
 export default function PhoenixOperationsWorkspace() {
 
@@ -83,6 +85,8 @@ export default function PhoenixOperationsWorkspace() {
             <PhoenixOperationalTimeline
                 selectedCountry={selectedCountry}
             />
+
+            <PhoenixOperationsAlmanac />
         </section>
 
     );

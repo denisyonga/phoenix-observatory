@@ -2,72 +2,78 @@
 
 import React from "react";
 import PhoenixExecutiveWorkspace
-  from "./PhoenixExecutiveWorkspace";
+    from "./PhoenixExecutiveWorkspace";
 import PhoenixOperationsWorkspace
-  from "./PhoenixOperationsWorkspace";
+    from "./PhoenixOperationsWorkspace";
 import PhoenixAnalyticsWorkspace
-  from "./PhoenixAnalyticsWorkspace";
+    from "./PhoenixAnalyticsWorkspace";
 import PhoenixDataWorkspace
-  from "./PhoenixDataWorkspace";
+    from "./PhoenixDataWorkspace";
 import PhoenixAdministrationWorkspace
-  from "./PhoenixAdministrationWorkspace";
+    from "./PhoenixAdministrationWorkspace";
 import PhoenixIntelligenceWorkspace
-  from "./PhoenixIntelligenceWorkspace";
+    from "./PhoenixIntelligenceWorkspace";
 import { useState } from "react";
 import PhoenixOperationsCentreHeader
-  from "./PhoenixOperationsCentreHeader";
+    from "./PhoenixOperationsCentreHeader";
+import PhoenixPublicGate
+    from "./PhoenixPublicGate";
 
 export default function PhoenixOperationsCentre() {
 
-  const [
+    const [
 
-    activeWorkspace,
+        activeWorkspace,
 
-    setActiveWorkspace,
+        setActiveWorkspace,
 
-  ] = useState("executive");
+    ] = useState("executive");
 
-  return (
+    return (
 
-    <section className="space-y-8">
+        <section className="space-y-8">
 
-      <PhoenixOperationsCentreHeader
+            <PhoenixOperationsCentreHeader
 
-        activeWorkspace={activeWorkspace}
-        onWorkspaceChange={setActiveWorkspace}
+                activeWorkspace={activeWorkspace}
+                onWorkspaceChange={setActiveWorkspace}
 
-      >
+            >
 
-         {/* Executive Office */}
+                {/* Executive Office */}
 
-        {activeWorkspace === "executive" && (
-          <PhoenixExecutiveWorkspace />
-        )}
+                {activeWorkspace === "executive" && (
+                    <PhoenixExecutiveWorkspace />
+                )}
 
-        {activeWorkspace === "operations" && (
-        <PhoenixOperationsWorkspace />
-        )}
+                {activeWorkspace === "operations" && (
+                    <PhoenixOperationsWorkspace />
+                )}
 
-        {activeWorkspace === "analytics" && (
-        <PhoenixAnalyticsWorkspace />
-        )}
+                {activeWorkspace === "analytics" && (
+                    <PhoenixAnalyticsWorkspace />
+                )}
 
-        {activeWorkspace === "data" && (
-        <PhoenixDataWorkspace />
-        )}
+                {activeWorkspace === "data" && (
+                    <PhoenixDataWorkspace />
+                )}
 
-        {activeWorkspace === "administration" && (
-        <PhoenixAdministrationWorkspace />
-        )}
+                {activeWorkspace === "administration" && (
+                    <PhoenixAdministrationWorkspace />
+                )}
 
-        {activeWorkspace === "intelligence" && (
-        <PhoenixIntelligenceWorkspace />
-        )}
+                {activeWorkspace === "intelligence" && (
+                    <PhoenixIntelligenceWorkspace />
+                )}
 
-      </PhoenixOperationsCentreHeader>
+                {activeWorkspace === "public" && (
+                    <PhoenixPublicGate />
+                )}
 
-    </section>
+            </PhoenixOperationsCentreHeader>
 
-  );
+        </section>
+
+    );
 
 }
